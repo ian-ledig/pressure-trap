@@ -1,12 +1,10 @@
 package com.pressuretrap.handler;
 
 import com.pressuretrap.Main;
-import net.minecraft.block.AbstractBlock;
+import com.pressuretrap.block.PressureTableBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -17,8 +15,7 @@ import java.util.function.Supplier;
 public class BlockHandler {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Main.MOD_ID);
 
-    public static final RegistryObject<Block> PRESSURE_TABLE = registerBlock("pressure_table",
-            () -> new Block(AbstractBlock.Properties.create(Material.ANVIL).harvestLevel(2).harvestTool(ToolType.PICKAXE).setRequiresTool().hardnessAndResistance(5f)));
+    public static final RegistryObject<Block> PRESSURE_TABLE = registerBlock("pressure_table", PressureTableBlock::new);
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

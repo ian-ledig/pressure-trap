@@ -1,7 +1,9 @@
 package com.pressuretrap;
 
 import com.pressuretrap.handler.BlockHandler;
+import com.pressuretrap.handler.ContainerHandler;
 import com.pressuretrap.handler.ItemHandler;
+import com.pressuretrap.handler.TileEntityHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,5 +35,7 @@ public class Main
 
         ItemHandler.register(eventBus);
         BlockHandler.register(eventBus);
+        TileEntityHandler.register(eventBus);
+        ContainerHandler.register(eventBus);
     }
 }
