@@ -1,11 +1,14 @@
 package com.pressuretrap.block.container;
 
+import com.pressuretrap.block.container.slot.PressureTrapSlot;
+import com.pressuretrap.handler.BlockHandler;
 import com.pressuretrap.handler.ContainerHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class PressureTableContainer extends Container {
@@ -16,7 +19,7 @@ public class PressureTableContainer extends Container {
         this.inventory = inventory;
 
         this.addSlot(new Slot(inventory, 0, 56, 17));
-        this.addSlot(new Slot(inventory, 1, 102, 17));
+        this.addSlot(new PressureTrapSlot(inventory, 1, 102, 17));
 
         this.addSlot(new Slot(inventory, 3, 79, 51));
 
@@ -30,6 +33,8 @@ public class PressureTableContainer extends Container {
             this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
         }
     }
+
+
 
     @Override
     public boolean canInteractWith(PlayerEntity playerEntity) {
@@ -45,7 +50,7 @@ public class PressureTableContainer extends Container {
             ItemStack stackInSlot = slot.getStack();
             originalStack = stackInSlot.copy();
 
-            int containerSlotCount = 10;
+            int containerSlotCount = 3;
             int playerInventoryStart = containerSlotCount;
             int playerInventoryEnd = playerInventoryStart + 27;
             int hotbarStart = playerInventoryEnd;
@@ -57,8 +62,14 @@ public class PressureTableContainer extends Container {
                 }
             }
             else {
-                if (!this.mergeItemStack(stackInSlot, 0, containerSlotCount, false)) {
-                    return ItemStack.EMPTY;
+                if (stackInSlot.getItem() == Item.getItemFromBlock(BlockHandler.PRESSURE_TRAP.get())) {
+                    if (!this.mergeItemStack(stackInSlot, 1, 2, false)) { // Slot 1
+                        return ItemStack.EMPTY;
+                    }
+                } else {
+                    if (!this.mergeItemStack(stackInSlot, 0, containerSlotCount, false)) {
+                        return ItemStack.EMPTY;
+                    }
                 }
             }
 
