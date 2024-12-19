@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "pressuretrap:block/pressure_table"
+  }
+}
