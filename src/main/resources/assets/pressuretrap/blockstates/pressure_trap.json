@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "pressuretrap:block/pressure_trap"
+    },
+    "powered=true": {
+      "model": "pressuretrap:block/pressure_trap_down"
+    }
+  }
+}

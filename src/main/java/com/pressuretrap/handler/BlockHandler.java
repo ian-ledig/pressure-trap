@@ -2,6 +2,7 @@ package com.pressuretrap.handler;
 
 import com.pressuretrap.Main;
 import com.pressuretrap.block.PressureTableBlock;
+import com.pressuretrap.block.PressureTrapBlock;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -16,6 +17,7 @@ public class BlockHandler {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Main.MOD_ID);
 
     public static final RegistryObject<Block> PRESSURE_TABLE = registerBlock("pressure_table", PressureTableBlock::new);
+    public static final RegistryObject<Block> PRESSURE_TRAP = registerBlock("pressure_trap", PressureTrapBlock::new);
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

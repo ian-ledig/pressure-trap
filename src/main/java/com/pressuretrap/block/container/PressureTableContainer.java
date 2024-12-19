@@ -15,13 +15,10 @@ public class PressureTableContainer extends Container {
         super(ContainerHandler.PRESSURE_TABLE_CONTAINER.get(), id);
         this.inventory = inventory;
 
-        for (int row = 0; row < 3; ++row) {
-            for (int col = 0; col < 3; ++col) {
-                this.addSlot(new Slot(inventory, col + row * 3, 30 + col * 18, 17 + row * 18));
-            }
-        }
+        this.addSlot(new Slot(inventory, 0, 56, 17));
+        this.addSlot(new Slot(inventory, 1, 102, 17));
 
-        this.addSlot(new Slot(inventory, 9, 124, 35));
+        this.addSlot(new Slot(inventory, 3, 79, 51));
 
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {

@@ -1,5 +1,6 @@
 {
   "itemGroup.pressuretraptab": "Pressure Trap",
 
-  "block.pressuretrap.pressure_table": "Pressure Table"
+  "block.pressuretrap.pressure_table": "Pressure Table",
+  "block.pressuretrap.pressure_trap": "Pressure Trap"
 }
