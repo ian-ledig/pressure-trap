@@ -1,5 +1,6 @@
 package com.pressuretrap.block.container;
 
+import com.pressuretrap.block.PressureTrapBlock;
 import com.pressuretrap.block.container.slot.PotionSlot;
 import com.pressuretrap.block.container.slot.PressureTrapSlot;
 import com.pressuretrap.handler.BlockHandler;
@@ -12,6 +13,10 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class PressureTableContainer extends Container {
     private final IInventory inventory;
@@ -75,7 +80,7 @@ public class PressureTableContainer extends Container {
             }
             else {
                 if (stackInSlot.getItem() == Item.getItemFromBlock(BlockHandler.PRESSURE_TRAP.get())) {
-                    if (!this.mergeItemStack(stackInSlot, 1, 2, false)) { // Slot 1
+                    if (!this.mergeItemStack(stackInSlot, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
@@ -113,7 +118,15 @@ public class PressureTableContainer extends Container {
             CompoundNBT nbt = new CompoundNBT();
 
             if (potionStack.hasTag() && potionStack.getTag().contains("Potion")) {
-                nbt.putString("Effect", potionStack.getTag().getString("Potion"));
+                String potionName = potionStack.getTag().getString("Potion");
+                Potion potion = ForgeRegistries.POTION_TYPES.getValue(new ResourceLocation(potionName));
+
+                if (potion != null && !potion.getEffects().isEmpty()) {
+                    EffectInstance firstEffect = potion.getEffects().get(0);
+                    if (firstEffect != null) {
+                        nbt.putString("Effect", firstEffect.getPotion().getRegistryName().toString());
+                    }
+                }
             }
 
             newStack.setTag(nbt);
