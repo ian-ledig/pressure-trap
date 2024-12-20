@@ -1,15 +1,14 @@
 package com.pressuretrap.blockitem;
 
-import com.pressuretrap.trap.PressureTrapState;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -27,7 +26,7 @@ public class PressureTrapBlockItem extends BlockItem {
 
         CompoundNBT nbt = stack.getTag();
         if (nbt != null && nbt.contains("Effect")) {
-            String state = nbt.getString("Effect");
+            String state = Potion.getPotionTypeForName(nbt.getString("Effect")).getNamePrefixed("");
             tooltip.add(new StringTextComponent("Effect: " + state).mergeStyle(TextFormatting.GREEN));
         }
     }
@@ -41,7 +40,7 @@ public class PressureTrapBlockItem extends BlockItem {
         }
 
         if (!stack.getTag().contains("Effect")) {
-            stack.getTag().putString("Effect", PressureTrapState.NONE.label);
+            stack.getTag().putString("Effect", "Empty");
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.pressuretrap.block.container;
 
+import com.pressuretrap.block.container.slot.PotionSlot;
 import com.pressuretrap.block.container.slot.PressureTrapSlot;
 import com.pressuretrap.handler.BlockHandler;
 import com.pressuretrap.handler.ContainerHandler;
@@ -10,6 +11,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 
 public class PressureTableContainer extends Container {
     private final IInventory inventory;
@@ -18,10 +20,22 @@ public class PressureTableContainer extends Container {
         super(ContainerHandler.PRESSURE_TABLE_CONTAINER.get(), id);
         this.inventory = inventory;
 
-        this.addSlot(new Slot(inventory, 0, 56, 17));
+        this.addSlot(new PotionSlot(inventory, 0, 56, 17));
         this.addSlot(new PressureTrapSlot(inventory, 1, 102, 17));
 
-        this.addSlot(new Slot(inventory, 3, 79, 51));
+        this.addSlot(new Slot(inventory, 2, 79, 51) {
+            @Override
+            public boolean isItemValid(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public ItemStack onTake(PlayerEntity player, ItemStack stack) {
+                super.onTake(player, stack);
+                consumeIngredients();
+                return stack;
+            }
+        });
 
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
@@ -33,8 +47,6 @@ public class PressureTableContainer extends Container {
             this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
         }
     }
-
-
 
     @Override
     public boolean canInteractWith(PlayerEntity playerEntity) {
@@ -73,6 +85,11 @@ public class PressureTableContainer extends Container {
                 }
             }
 
+            slot.onSlotChanged();
+            if (index == 2) {
+                slot.onTake(player, stackInSlot);
+            }
+
             if (stackInSlot.isEmpty()) {
                 slot.putStack(ItemStack.EMPTY);
             } else {
@@ -81,5 +98,41 @@ public class PressureTableContainer extends Container {
         }
 
         return originalStack;
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+
+        ItemStack potionStack = inventory.getStackInSlot(0);
+        ItemStack trapStack = inventory.getStackInSlot(1);
+        ItemStack outputStack = inventory.getStackInSlot(2);
+
+        if (!potionStack.isEmpty() && !trapStack.isEmpty()) {
+            ItemStack newStack = new ItemStack(BlockHandler.PRESSURE_TRAP.get());
+            CompoundNBT nbt = new CompoundNBT();
+
+            if (potionStack.hasTag() && potionStack.getTag().contains("Potion")) {
+                nbt.putString("Effect", potionStack.getTag().getString("Potion"));
+            }
+
+            newStack.setTag(nbt);
+
+            inventory.setInventorySlotContents(2, newStack);
+        } else if (!outputStack.isEmpty()) {
+            inventory.setInventorySlotContents(2, ItemStack.EMPTY);
+        }
+    }
+
+    private void consumeIngredients() {
+        ItemStack potionStack = inventory.getStackInSlot(0);
+        ItemStack trapStack = inventory.getStackInSlot(1);
+
+        if (!potionStack.isEmpty()) {
+            potionStack.shrink(1);
+        }
+        if (!trapStack.isEmpty()) {
+            trapStack.shrink(1);
+        }
     }
 }

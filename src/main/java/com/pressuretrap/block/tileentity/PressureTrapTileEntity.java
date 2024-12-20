@@ -1,31 +1,30 @@
 package com.pressuretrap.block.tileentity;
 
 import com.pressuretrap.handler.TileEntityHandler;
-import com.pressuretrap.trap.PressureTrapState;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 
 public class PressureTrapTileEntity extends TileEntity {
-    private PressureTrapState state = PressureTrapState.NONE;
+    private String effect = "Empty";
 
     public PressureTrapTileEntity() {
         super(TileEntityHandler.PRESSURE_TRAP_TILE_ENTITY.get());
     }
 
-    public PressureTrapState getState() {
-        return state;
+    public String getEffect() {
+        return effect;
     }
 
-    public void setState(PressureTrapState state) {
-        this.state = state;
+    public void setEffect(String effect) {
+        this.effect = effect;
         markDirty();
     }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
-        compound.putString("Effect", state.name());
+        compound.putString("Effect", effect);
         return compound;
     }
 
@@ -34,7 +33,7 @@ public class PressureTrapTileEntity extends TileEntity {
         super.read(blockState, compound);
 
         if (compound.contains("Effect")) {
-            state = PressureTrapState.valueOf(compound.getString("Effect"));
+            effect = compound.getString("Effect");
         }
     }
 }
