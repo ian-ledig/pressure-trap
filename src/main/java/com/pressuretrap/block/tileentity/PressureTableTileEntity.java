@@ -19,7 +19,7 @@ import net.minecraft.util.text.StringTextComponent;
 import javax.annotation.Nullable;
 
 public class PressureTableTileEntity extends TileEntity implements INamedContainerProvider, IInventory {
-    private final NonNullList<ItemStack> items = NonNullList.withSize(10, ItemStack.EMPTY); // 9 slots + 1 output
+    private final NonNullList<ItemStack> items = NonNullList.withSize(3, ItemStack.EMPTY);
 
     public PressureTableTileEntity() {
         super(TileEntityHandler.PRESSURE_TABLE_TILE_ENTITY.get());

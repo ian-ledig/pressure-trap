@@ -55,7 +55,7 @@ public class PressureTableBlock extends Block {
             if (tileEntity instanceof PressureTableTileEntity) {
                 PressureTableTileEntity pressureTableTileEntity = (PressureTableTileEntity) tileEntity;
 
-                for (int i = 0; i < pressureTableTileEntity.getSizeInventory(); ++i) {
+                for (int i = 0; i < pressureTableTileEntity.getSizeInventory() - 1; ++i) {
                     ItemStack stack = pressureTableTileEntity.getStackInSlot(i);
                     if (!stack.isEmpty()) {
                         ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack);
