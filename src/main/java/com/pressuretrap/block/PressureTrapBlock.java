@@ -37,8 +37,6 @@ public class PressureTrapBlock extends PressurePlateBlock {
     public void onEntityCollision(BlockState blockState, World world, BlockPos pos, Entity entity) {
         super.onEntityCollision(blockState, world, pos, entity);
 
-        //entity.setFire(5);
-
         if (!world.isRemote() && entity instanceof LivingEntity) {
             PressureTrapTileEntity tileEntity = (PressureTrapTileEntity) world.getTileEntity(pos);
 
@@ -46,10 +44,15 @@ public class PressureTrapBlock extends PressurePlateBlock {
                 String effectName = tileEntity.getEffect();
 
                 if (effectName != null && !effectName.equals("Empty")) {
-                    Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
-                    if (effect != null) {
-                        EffectInstance effectInstance = new EffectInstance(effect, 200, 0);
-                        ((LivingEntity) entity).addPotionEffect(effectInstance);
+                    if(effectName.equals("Fire")){
+                        entity.setFire(5);
+                    }
+                    else {
+                        Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
+                        if (effect != null) {
+                            EffectInstance effectInstance = new EffectInstance(effect, 100, 0);
+                            ((LivingEntity) entity).addPotionEffect(effectInstance);
+                        }
                     }
                 }
             }

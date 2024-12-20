@@ -12,6 +12,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Potion;
@@ -127,6 +128,9 @@ public class PressureTableContainer extends Container {
                         nbt.putString("Effect", firstEffect.getPotion().getRegistryName().toString());
                     }
                 }
+            }
+            else if(potionStack.getItem() == Items.FIRE_CHARGE){
+                nbt.putString("Effect", "Fire");
             }
 
             newStack.setTag(nbt);

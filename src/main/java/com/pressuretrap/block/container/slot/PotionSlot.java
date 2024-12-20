@@ -12,7 +12,7 @@ public class PotionSlot extends Slot {
 
     @Override
     public boolean isItemValid(ItemStack stack) {
-        if (stack != null && stack.getItem() == Items.SPLASH_POTION) {
+        if (stack != null && stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.FIRE_CHARGE) {
             return true;
         }
         return false;

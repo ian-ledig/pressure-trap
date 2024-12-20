@@ -35,11 +35,17 @@ public class PressureTrapBlockItem extends BlockItem {
         CompoundNBT nbt = stack.getTag();
         if (nbt != null && nbt.contains("Effect")) {
             String effectName = nbt.getString("Effect");
-            Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
 
-            if (effect != null) {
-                String localizedName = effect.getDisplayName().getString();
-                tooltip.add(new StringTextComponent("Effect: " + localizedName).mergeStyle(TextFormatting.GREEN));
+            if (effectName.equals("Fire")) {
+                tooltip.add(new StringTextComponent("Effect: Fire").mergeStyle(TextFormatting.GREEN));
+            }
+            else if (!effectName.equals("Empty")){
+                Effect effect = ForgeRegistries.POTIONS.getValue(new ResourceLocation(effectName));
+
+                if (effect != null) {
+                    String localizedName = effect.getDisplayName().getString();
+                    tooltip.add(new StringTextComponent("Effect: " + localizedName).mergeStyle(TextFormatting.GREEN));
+                }
             } else {
                 tooltip.add(new StringTextComponent("Effect: Empty").mergeStyle(TextFormatting.RED));
             }
