@@ -40,10 +40,6 @@ public class PressureTrapBlock extends PressurePlateBlock {
     public void onEntityCollision(BlockState blockState, World world, BlockPos pos, Entity entity) {
         super.onEntityCollision(blockState, world, pos, entity);
 
-        if (world.isRemote) {
-            return;
-        }
-
         // Apply effect to entity
         if (entity instanceof LivingEntity) {
             PressureTrapTileEntity tileEntity = (PressureTrapTileEntity) world.getTileEntity(pos);
